@@ -25,6 +25,7 @@ type Account struct {
 	PhoneNum string `json:"phoneNum"`
 	Password string `json:"password"`
 	Community string `json:"community"`
+	Role string `json:"role"`
 	Token string `json:"token";sql:"-"`
 }
 
@@ -54,7 +55,7 @@ func (account *Account) Validate() (map[string] interface{}, bool) {
 	return u.Message(false, "Requirement passed"), true
 }
 
-func (account *Account) Create() (map[string] interface{}) {
+func (account *Account) Create() map[string] interface{} {
 
 	if resp, ok := account.Validate(); !ok {
 		return resp
@@ -82,7 +83,35 @@ func (account *Account) Create() (map[string] interface{}) {
 	return response
 }
 
-func Login(email, password string) (map[string]interface{}) {
+func (account *Account) Update(userID uint) map[string] interface{} {
+	acc := &Account{}
+	err := GetDB().Table("accounts").Where("id = ?", userID).First(acc).Error
+	if err != nil && err != gorm.ErrRecordNotFound {
+		return u.Message(false, "Connection db error. Please retry")
+	}
+	if account.Username != "" {
+		acc.Username = account.Username
+	}
+	if account.Community != "" {
+		acc.Community = account.Community
+	}
+	if account.PhoneNum != "" {
+		acc.PhoneNum = account.PhoneNum
+	}
+
+	err = GetDB().Save(acc).First(acc).Error
+	if err != nil {
+		return u.Message(false, err.Error())
+	}
+
+
+	response := u.Message(true, "Account has been updated")
+	response["account"] = acc
+	return response
+
+}
+
+func Login(email, password string) map[string]interface{} {
 
 	account := &Account{}
 	err := GetDB().Table("accounts").Where("email = ?", email).First(account).Error
