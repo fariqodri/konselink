@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Konselink</string>
+    <string name="pedoman">Pedoman</string>
+    <string name="pesan_nav">Pesan</string>
+    <string name="psikolog_nav">Psikolog</string>
+    <string name="profil_nav">Profil</string>
+    <string name="panduan_thumbnail_description">Panduan Thumbnail</string>
+    <string name="panduan_banner_description">Panduan Banner</string>
+    <string name="panduan_title_hint">Panduan Title</string>
+    <string name="panduan_content_hint">Panduan Content</string>
+    <string name="ellipsis">%1$s&#8230;</string>
+    <string name="panduan_author_hint">Panduan Author</string>
+    <string name="author_prefix">By: %1$s</string>
+    <string name="detail_panduan_appbar_title">Panduan</string>
+</resources>
