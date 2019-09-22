@@ -13,11 +13,13 @@ func main() {
 
 	router := mux.NewRouter()
 
+	router.Use(app.JwtAuthentication) //attach JWT auth middleware
+
 	router.HandleFunc("/api/users", controllers.CreateAccount).Methods("POST")
+	router.HandleFunc("/api/users", controllers.UpdateAccount).Methods("PUT")
 	router.HandleFunc("/api/users/login", controllers.Authenticate).Methods("POST")
 
 
-	router.Use(app.JwtAuthentication) //attach JWT auth middleware
 
 	//router.NotFoundHandler = app.NotFoundHandler
 
