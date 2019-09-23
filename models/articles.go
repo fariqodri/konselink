@@ -89,6 +89,28 @@ func (article *Article) ListArticles(params *FindAllArticleParams) []*Article {
 	return articles
 }
 
+func (article *Article) Get(articleID uint) map[string]interface{} {
+	err := GetDB().Table("articles").Where("id = ?", articleID).First(article).Error
+	if err != nil && err != gorm.ErrRecordNotFound {
+		return u.Message(false, "Connection db Article error. Please retry")
+	}
+	if article.ID <= 0 {
+		return u.Message(false, "Failed to find Article, Not Found.")
+	}
+	var categories []*Category
+	GetDB().Joins("JOIN article_categories on article_categories.category_id=categories.id").
+		Joins("JOIN articles on article_categories.article_id=articles.id").
+		Where("articles.id=?", article.ID).Group("categories.id").Find(&categories)
+	var articleCat []string
+	for _, cat :=  range categories {
+		articleCat = append(articleCat, cat.Name)
+	}
+	article.Categories = articleCat
+	response := u.Message(true, "Article has been found")
+	response["article"] = article
+	return response
+}
+
 // Contains tells whether a contains x.
 func Contains(a []string, x string) bool {
 	for _, n := range a {

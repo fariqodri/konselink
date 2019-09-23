@@ -6,6 +6,8 @@ import (
 	"konselink/models"
 	u "konselink/utils"
 	"net/http"
+	"strconv"
+	"strings"
 )
 
 var CreateArticle = func(w http.ResponseWriter, r *http.Request) {
@@ -32,4 +34,19 @@ var ListArticles = func(w http.ResponseWriter, r *http.Request) {
 	resp := u.Message(true, "success")
 	resp["data"] = data
 	u.Respond(w, resp)
+}
+
+var GetArticle = func(w http.ResponseWriter, r *http.Request) {
+	urlPath := r.URL.Path
+	sArticleID := strings.Split(urlPath, "/")[3]
+
+	articleID, err := strconv.Atoi(sArticleID)
+	if err != nil {
+		u.Respond(w, u.Message(false, "Error"))
+		return
+	}
+	articles := &models.Article{}
+	resp := articles.Get(uint(articleID)) //Get article
+	u.Respond(w, resp)
+
 }
