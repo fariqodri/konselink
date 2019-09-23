@@ -78,9 +78,11 @@ func (article *Article) ListArticles(params *FindAllArticleParams) []*Article {
 	}
 
 	for _, singleArticle := range articles {
-		singleArticle.Content = ""
+		runeString := []rune(singleArticle.Content)
+		if len(runeString) > 100 {
+			singleArticle.Content = string(runeString[:100])
+		}
 		singleArticle.Banner = ""
-
 		// Find all categories of an article
 		var categories []*Category
 		GetDB().Joins("JOIN article_categories on article_categories.category_id=categories.id").
