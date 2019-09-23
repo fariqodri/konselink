@@ -17,6 +17,7 @@ func main() {
 
 	router.HandleFunc("/api/users", controllers.CreateAccount).Methods("POST")
 	router.HandleFunc("/api/users", controllers.UpdateAccount).Methods("PUT")
+	router.HandleFunc("/api/users", controllers.GetAccount).Methods("GET")
 	router.HandleFunc("/api/users/login", controllers.Authenticate).Methods("POST")
 
 

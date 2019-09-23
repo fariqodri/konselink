@@ -83,6 +83,17 @@ func (account *Account) Create() map[string] interface{} {
 	return response
 }
 
+func (account *Account) Get(userID uint) map[string] interface{} {
+	acc := &Account{}
+	err := GetDB().Table("accounts").Where("id = ?", userID).First(acc).Error
+	if err != nil && err != gorm.ErrRecordNotFound {
+		return u.Message(false, "Connection db error. Please retry")
+	}
+	response := u.Message(true, "Account has been found")
+	response["account"] = acc
+	return response
+}
+
 func (account *Account) Update(userID uint) map[string] interface{} {
 	acc := &Account{}
 	err := GetDB().Table("accounts").Where("id = ?", userID).First(acc).Error

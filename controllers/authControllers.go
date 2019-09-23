@@ -34,6 +34,14 @@ var UpdateAccount = func(w http.ResponseWriter, r *http.Request) {
 	u.Respond(w, resp)
 }
 
+var GetAccount = func(w http.ResponseWriter, r *http.Request) {
+
+	userID := r.Context().Value("user") . (uint) //Grab the id of the user that send the request
+	account := &models.Account{}
+	resp := account.Get(userID) //Get account
+	u.Respond(w, resp)
+}
+
 var Authenticate = func(w http.ResponseWriter, r *http.Request) {
 
 	account := &models.Account{}
