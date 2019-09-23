@@ -60,7 +60,6 @@ func (article *Article) Create() map[string] interface{} {
 
 	}
 
-
 	response := u.Message(true, "Article has been created")
 	response["article"] = article
 	return response
@@ -69,10 +68,14 @@ func (article *Article) Create() map[string] interface{} {
 func (article *Article) ListArticles(params *FindAllArticleParams) []*Article {
 	categoryName := params.Category
 	var articles []*Article
-	// Find all articles with the filtered category
-	GetDB().Joins("JOIN article_categories on article_categories.article_id=articles.id").
-		Joins("JOIN categories on article_categories.category_id=categories.id").
-		Where("categories.name=?",categoryName).Group("articles.id").Find(&articles)
+	if categoryName == "" {
+		GetDB().Find(&articles)
+	} else {
+		// Find all articles with the filtered category
+		GetDB().Joins("JOIN article_categories on article_categories.article_id=articles.id").
+			Joins("JOIN categories on article_categories.category_id=categories.id").
+			Where("categories.name=?",categoryName).Group("articles.id").Find(&articles)
+	}
 
 	// Find all categories of an article
 	for _, singleArticle := range articles {
