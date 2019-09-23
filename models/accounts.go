@@ -26,7 +26,7 @@ type Account struct {
 	Password string `json:"password"`
 	Community string `json:"community"`
 	Role string `json:"role"`
-	Token string `json:"token";sql:"-"`
+	Token string `json:"token" gorm:"-"`
 }
 
 //Validate incoming user details...
