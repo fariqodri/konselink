@@ -20,6 +20,12 @@ func main() {
 	router.HandleFunc("/api/users", controllers.GetAccount).Methods("GET")
 	router.HandleFunc("/api/users/login", controllers.Authenticate).Methods("POST")
 
+	router.HandleFunc("/api/articles", controllers.CreateArticle).Methods("POST")
+	router.HandleFunc("/api/articles", controllers.ListArticles).Methods("GET")
+	router.HandleFunc("/api/articles/{articleId}", controllers.GetArticle).Methods("GET")
+	//router.HandleFunc("/api/articles/{articleId}", controllers.UpdateArticle).Methods("PUT")
+	//router.HandleFunc("/api/articles/{articleId}", controllers.DeleteArticle).Methods("DELETE")
+
 
 
 	//router.NotFoundHandler = app.NotFoundHandler
