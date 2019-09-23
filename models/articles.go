@@ -77,8 +77,11 @@ func (article *Article) ListArticles(params *FindAllArticleParams) []*Article {
 			Where("categories.name=?",categoryName).Group("articles.id").Find(&articles)
 	}
 
-	// Find all categories of an article
 	for _, singleArticle := range articles {
+		singleArticle.Content = ""
+		singleArticle.Banner = ""
+
+		// Find all categories of an article
 		var categories []*Category
 		GetDB().Joins("JOIN article_categories on article_categories.category_id=categories.id").
 			Joins("JOIN articles on article_categories.article_id=articles.id").
