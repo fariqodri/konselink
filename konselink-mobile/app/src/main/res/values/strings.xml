@@ -12,4 +12,6 @@
     <string name="panduan_author_hint">Panduan Author</string>
     <string name="author_prefix">By: %1$s</string>
     <string name="detail_panduan_appbar_title">Panduan</string>
+    <string name="panduan_category_title">Kategori:</string>
+    <string name="panduan_categories">Meditasi, Kecemasan, Stress, Kehidupan, Kesehatan</string>
 </resources>

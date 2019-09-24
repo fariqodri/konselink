@@ -28,36 +28,28 @@ class PanduanFragment : Fragment() {
     private var panduanListAdapter: PanduanListAdapter? = null
     private lateinit var panduanRv: RecyclerView
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(PanduanViewModel::class.java)
+        viewModel.loadAll()
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // TODO initialize ViewModel
-//        viewModel.init()
         return inflater.inflate(R.layout.panduan_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         panduanRv = panduan_list
-        // TODO connect with API through ViewModel
-//        viewModel.panduanRepository.observe(this, Observer { panduanResponse ->
-//            val panduans = panduanResponse.panduans
-//            panduanArraylist.addAll(panduans)
-//            panduanListAdapter?.notifyDataSetChanged()
-//        })
-        val panduans = ArrayList<Panduan>()
-        panduans.add(Panduan(1, "Test 1", "Qori", "https://www.canterbury.ac.nz/science/schools-and-departments/psyc-speech-hear/postgraduate-study/clinical-psychology/Abstract-head-with-lit-up-brain_5340072790064601823.jpg",
-            "https://www.canterbury.ac.nz/science/schools-and-departments/psyc-speech-hear/postgraduate-study/clinical-psychology/Abstract-head-with-lit-up-brain_5340072790064601823.jpg", "hello everyone"))
-        panduans.add(Panduan(2, "Test 1", "Qori", "https://pi.tedcdn.com/r/pf.tedcdn.com/images/playlists/theories-of-evolution_325169627.jpg?quality=89&w=256",
-            "https://pi.tedcdn.com/r/pf.tedcdn.com/images/playlists/theories-of-evolution_325169627.jpg?quality=89&w=256", "hello everyone now we\'re back with the biggest Youtuber of all time which is lolll"))
-        panduanArraylist.addAll(panduans)
-        panduanListAdapter?.notifyDataSetChanged()
+        viewModel.findAll().observe(this, Observer { panduanResponse ->
+            val panduans = panduanResponse.panduans
+            loading_list_panduan.visibility = View.GONE
+            panduanArraylist.addAll(panduans)
+            panduanListAdapter?.notifyDataSetChanged()
+        })
         setupRecyclerView()
     }
 

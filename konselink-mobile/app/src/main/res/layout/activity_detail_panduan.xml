@@ -29,7 +29,6 @@
             android:layout_marginStart="20dp"
             android:layout_marginEnd="8dp"
             android:layout_marginTop="20dp"
-            android:hint="@string/panduan_title_hint"
             style="@style/TextAppearance.AppCompat.Title"
             android:textSize="12pt"
             android:textColor="@color/black"/>
@@ -44,7 +43,6 @@
             android:layout_marginStart="20dp" android:layout_marginEnd="8dp"
             android:layout_marginTop="10dp"
             style="@style/TextAppearance.AppCompat.Body1"
-            android:hint="@string/panduan_author_hint"
             android:textColor="@color/black"
             android:textSize="7pt"
     />
@@ -70,9 +68,18 @@
             android:layout_marginStart="20dp"
             style="@style/TextAppearance.MaterialComponents.Body2"
             android:layout_marginEnd="20dp"
-            android:hint="@string/panduan_content_hint"
             android:textColor="@color/black"
             android:textSize="8pt"
+    />
+
+    <ProgressBar
+            android:id="@+id/loading_detail_activity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
     />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

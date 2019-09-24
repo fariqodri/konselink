@@ -42,7 +42,7 @@ class PanduanListAdapter (val panduans: List<Panduan>, val context: Context) : R
         holder.panduanContent.text = content
         holder.itemView.setOnClickListener {
             val intent = Intent(context, DetailPanduanActivity::class.java)
-            intent.putExtra("Detail", panduan)
+            intent.putExtra("panduan", panduan)
             context.startActivity(intent)
         }
     }

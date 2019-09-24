@@ -30,7 +30,11 @@ class Panduan(
 
     @SerializedName("content")
     @Expose
-    private val _content: String?
+    private val _content: String?,
+
+    @SerializedName("category")
+    @Expose
+    private val _category: List<String>?
 ): Parcelable{
     val title
         get() = _title ?: throw IllegalArgumentException("Title is required")
@@ -49,4 +53,7 @@ class Panduan(
 
     val content
         get() = _content ?: throw IllegalArgumentException("Content is required")
+
+    val category
+        get() = _category ?: throw IllegalArgumentException("Category is required")
 }

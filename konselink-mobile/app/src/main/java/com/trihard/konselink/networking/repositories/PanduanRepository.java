@@ -1,7 +1,10 @@
-package com.trihard.konselink.networking;
+package com.trihard.konselink.networking.repositories;
 
 import androidx.lifecycle.MutableLiveData;
 import com.trihard.konselink.models.panduan.PanduanListResponse;
+import com.trihard.konselink.models.panduan.PanduanResponse;
+import com.trihard.konselink.networking.RetrofitService;
+import com.trihard.konselink.networking.api.PanduanApi;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -18,11 +21,11 @@ public class PanduanRepository {
 
     private PanduanApi panduanApi;
 
-    public PanduanRepository() {
+    private PanduanRepository() {
         panduanApi = RetrofitService.Companion.createService(PanduanApi.class);
     }
 
-    public MutableLiveData<PanduanListResponse> getPanduans() {
+    public MutableLiveData<PanduanListResponse> findAll() {
         final MutableLiveData<PanduanListResponse> panduanData = new MutableLiveData<>();
         panduanApi.getPanduanList().enqueue(new Callback<PanduanListResponse>() {
             @Override
@@ -38,5 +41,23 @@ public class PanduanRepository {
             }
         });
         return panduanData;
+    }
+
+    public MutableLiveData<PanduanResponse> findOne(int id) {
+        final MutableLiveData<PanduanResponse> panduan = new MutableLiveData<>();
+        panduanApi.getPanduan(id).enqueue(new Callback<PanduanResponse>() {
+            @Override
+            public void onResponse(Call<PanduanResponse> call, Response<PanduanResponse> response) {
+                if (response.isSuccessful()) {
+                    panduan.setValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PanduanResponse> call, Throwable t) {
+                panduan.setValue(null);
+            }
+        });
+        return panduan;
     }
 }
