@@ -57,11 +57,75 @@ func (article *Article) Create() map[string] interface{} {
 			ArticleID:  article.ID,
 		}
 		GetDB().Create(articleCategoryMap)
-
 	}
 
 	response := u.Message(true, "Article has been created")
 	response["article"] = article
+	return response
+}
+
+func (article *Article) Update(articleID uint) map[string] interface{} {
+	if resp, ok := article.Validate(); !ok {
+		return resp
+	}
+	art := &Article{}
+	err := GetDB().Table("articles").Where("id = ?", articleID).First(art).Error
+	if err != nil && err != gorm.ErrRecordNotFound {
+		return u.Message(false, "Connection db error in article. Please retry")
+	}
+
+	if len(article.Categories) != 0 {
+		err = GetDB().Unscoped().Delete(ArticleCategory{}, "article_id = ?", art.ID).Error
+		if err != nil {
+			return u.Message(false, "Connection db error in article category. Please retry")
+		}
+
+		for _, elem := range article.Categories {
+			category := &Category{}
+			err := GetDB().Table("categories").Where("name = ?", elem).First(category).Error
+			if err != nil && err != gorm.ErrRecordNotFound {
+				return u.Message(false, "Connection db error in category. Please retry")
+			}
+			articleCategoryMap := &ArticleCategory{
+				CategoryID: category.ID,
+				ArticleID:  art.ID,
+			}
+			GetDB().Create(articleCategoryMap)
+		}
+		art.Categories = article.Categories
+	}
+
+	if article.Content != "" {
+		art.Content = article.Content
+	}
+	if article.Banner != "" {
+		art.Content = article.Banner
+	}
+	if article.Thumbnail != "" {
+		art.Content = article.Content
+	}
+	if article.Title != "" {
+		art.Title = article.Title
+	}
+	if article.Writer != "" {
+		art.Writer = article.Writer
+	}
+
+	err = GetDB().Save(art).First(art).Error
+	if err != nil {
+		return u.Message(false, err.Error())
+	}
+	response := u.Message(true, "Article has been created")
+	response["article"] = art
+	return response
+}
+
+func (article *Article) Delete(articleID uint) map[string] interface{} {
+	err := GetDB().Delete(Article{}, "id = ?", articleID).Error
+	if err != nil {
+		return u.Message(false, "Connection db error in article. Please retry")
+	}
+	response := u.Message(true, "Article has been deleted")
 	return response
 }
 

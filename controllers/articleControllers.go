@@ -24,6 +24,26 @@ var CreateArticle = func(w http.ResponseWriter, r *http.Request) {
 	u.Respond(w, resp)
 }
 
+var UpdateArticle = func(w http.ResponseWriter, r *http.Request) {
+	urlPath := r.URL.Path
+	sArticleID := strings.Split(urlPath, "/")[3]
+
+	articleID, err := strconv.Atoi(sArticleID)
+	if err != nil {
+		u.Respond(w, u.Message(false, "Error"))
+		return
+	}
+	article := &models.Article{}
+	err = json.NewDecoder(r.Body).Decode(article) //decode the request body into struct and failed if any error occur
+	if err != nil {
+		fmt.Println(err.Error())
+		u.Respond(w, u.Message(false, "Invalid request"))
+		return
+	}
+	resp := article.Update(uint(articleID)) //Create article
+	u.Respond(w, resp)
+}
+
 var ListArticles = func(w http.ResponseWriter, r *http.Request) {
 	queryValues := r.URL.Query()
 
@@ -48,5 +68,18 @@ var GetArticle = func(w http.ResponseWriter, r *http.Request) {
 	articles := &models.Article{}
 	resp := articles.Get(uint(articleID)) //Get article
 	u.Respond(w, resp)
+}
 
+var DeleteArticle =  func(w http.ResponseWriter, r *http.Request) {
+	urlPath := r.URL.Path
+	sArticleID := strings.Split(urlPath, "/")[3]
+
+	articleID, err := strconv.Atoi(sArticleID)
+	if err != nil {
+		u.Respond(w, u.Message(false, "Error"))
+		return
+	}
+	articles := &models.Article{}
+	resp := articles.Delete(uint(articleID)) //Get article
+	u.Respond(w, resp)
 }

@@ -23,12 +23,11 @@ func main() {
 	router.HandleFunc("/api/articles", controllers.CreateArticle).Methods("POST")
 	router.HandleFunc("/api/articles", controllers.ListArticles).Methods("GET")
 	router.HandleFunc("/api/articles/{articleId}", controllers.GetArticle).Methods("GET")
+	router.HandleFunc("/api/articles/{articleId}", controllers.UpdateArticle).Methods("PUT")
+	router.HandleFunc("/api/articles/{articleId}", controllers.DeleteArticle).Methods("DELETE")
 
 	router.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir(""))))
 	//router.HandleFunc("/api/articles/{articleId}", controllers.UpdateArticle).Methods("PUT")
-	//router.HandleFunc("/api/articles/{articleId}", controllers.DeleteArticle).Methods("DELETE")
-
-
 
 	//router.NotFoundHandler = app.NotFoundHandler
 
@@ -39,7 +38,7 @@ func main() {
 
 	fmt.Println(port)
 
-	err := http.ListenAndServe(":" + port, router) //Launch the app, visit localhost:8000/api
+	err := http.ListenAndServe(":"+port, router) //Launch the app, visit localhost:8000/api
 	if err != nil {
 		fmt.Print(err)
 	}
