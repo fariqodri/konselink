@@ -24,7 +24,7 @@ type Account struct {
 	Email string `json:"email"`
 	PhoneNum string `json:"phoneNum"`
 	Password string `json:"password"`
-	Community string `json:"community"`
+	Community *string `json:"community"`
 	Role string `json:"role"`
 	Token string `json:"token" gorm:"-"`
 }
@@ -64,6 +64,9 @@ func (account *Account) Create() map[string] interface{} {
 	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(account.Password), bcrypt.DefaultCost)
 	account.Password = string(hashedPassword)
 
+	if strings.ToLower(account.Role) == "pencurhat" {
+		account.Community = nil
+	}
 	GetDB().Create(account)
 
 	if account.ID <= 0 {
@@ -103,7 +106,7 @@ func (account *Account) Update(userID uint) map[string] interface{} {
 	if account.Username != "" {
 		acc.Username = account.Username
 	}
-	if account.Community != "" {
+	if account.Community != nil {
 		acc.Community = account.Community
 	}
 	if account.PhoneNum != "" {
