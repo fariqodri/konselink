@@ -1,5 +1,7 @@
 package com.trihard.konselink.activities
 
+import android.content.Context
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -8,19 +10,23 @@ import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
 import com.trihard.konselink.R
 import com.trihard.konselink.models.panduan.Panduan
+import com.trihard.konselink.networking.repositories.ProfileRepository
 import com.trihard.konselink.view_model.PanduanViewModel
 import kotlinx.android.synthetic.main.activity_detail_panduan.*
 
 class DetailPanduanActivity : AppCompatActivity() {
 
     private lateinit var viewModel: PanduanViewModel
+    private val profileRepository = ProfileRepository.getInstance()
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail_panduan)
         val _panduan = collectData()
         viewModel = ViewModelProviders.of(this).get(PanduanViewModel::class.java)
-        viewModel.loadOne(_panduan.id)
+        sharedPreferences = this.getSharedPreferences(getString(R.string.user_shared_pref_file_key), Context.MODE_PRIVATE) ?: return
+        viewModel.loadOne( profileRepository.getToken(sharedPreferences, this), _panduan.id)
         viewModel.findOne().observe(this, Observer {
             val panduanData = it.article
             loading_detail_activity.visibility = View.GONE

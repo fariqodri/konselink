@@ -30,7 +30,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginTop="20dp"
             style="@style/TextAppearance.AppCompat.Title"
-            android:textSize="12pt"
+            android:textSize="30sp"
             android:textColor="@color/black"/>
 
     <TextView
@@ -44,7 +44,7 @@
             android:layout_marginTop="10dp"
             style="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/black"
-            android:textSize="7pt"
+            android:textSize="18sp"
     />
 
     <ImageView
@@ -69,7 +69,7 @@
             style="@style/TextAppearance.MaterialComponents.Body2"
             android:layout_marginEnd="20dp"
             android:textColor="@color/black"
-            android:textSize="8pt"
+            android:textSize="19sp"
     />
 
     <ProgressBar

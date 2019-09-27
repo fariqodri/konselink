@@ -12,20 +12,20 @@ public class PanduanViewModel extends ViewModel {
     private MutableLiveData<PanduanListResponse> listData;
     private PanduanRepository panduanRepository;
 
-    public void loadOne(int id) {
+    public void loadOne(String token, int id) {
         if (oneData != null) {
             return;
         }
         panduanRepository = PanduanRepository.getInstance();
-        oneData = panduanRepository.findOne(id);
+        oneData = panduanRepository.findOne(token, id);
     }
 
-    public void loadAll() {
+    public void loadAll(String token) {
         if (listData != null) {
             return;
         }
         panduanRepository = PanduanRepository.getInstance();
-        listData = panduanRepository.findAll();
+        listData = panduanRepository.findAll(token);
     }
 
     public LiveData<PanduanResponse> findOne() {

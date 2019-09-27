@@ -1,11 +1,21 @@
 package com.trihard.konselink.networking.repositories;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.util.Log;
+
 import androidx.lifecycle.MutableLiveData;
+
+import com.trihard.konselink.R;
+import com.trihard.konselink.models.profile.AccountBody;
 import com.trihard.konselink.models.profile.AccountResponse;
 import com.trihard.konselink.models.profile.LoginBody;
 import com.trihard.konselink.models.profile.RegisterBody;
 import com.trihard.konselink.networking.RetrofitService;
 import com.trihard.konselink.networking.api.ProfileApi;
+
+import org.jetbrains.annotations.NotNull;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -26,57 +36,73 @@ public class ProfileRepository {
         profileApi = RetrofitService.Companion.createService(ProfileApi.class);
     }
 
-    public MutableLiveData<AccountResponse> findOne(String authToken) {
-        final MutableLiveData<AccountResponse> responseData = new MutableLiveData<>();
-        profileApi.getUserData(authToken).enqueue(new Callback<AccountResponse>() {
+    public void findOne(String authToken, final MutableLiveData<AccountBody> responseData) {
+        profileApi.getUserData(authToken).enqueue(new Callback<AccountBody>() {
             @Override
-            public void onResponse(Call<AccountResponse> call, Response<AccountResponse> response) {
+            public void onResponse(Call<AccountBody> call, Response<AccountBody> response) {
                 if (response.isSuccessful()) {
                     responseData.setValue(response.body());
                 }
             }
 
             @Override
-            public void onFailure(Call<AccountResponse> call, Throwable t) {
-                responseData.setValue(null);
-            }
+            public void onFailure(Call<AccountBody> call, Throwable t) {}
         });
-        return responseData;
     }
 
-    public MutableLiveData<AccountResponse> login(LoginBody loginBody) {
-        final MutableLiveData<AccountResponse> loginResponseData = new MutableLiveData<>();
-        profileApi.login(loginBody).enqueue(new Callback<AccountResponse>() {
+    public void login(LoginBody loginBody, final MutableLiveData<AccountResponse> loginResponseData) {
+        profileApi.login(loginBody).enqueue(new Callback<AccountBody>() {
             @Override
-            public void onResponse(Call<AccountResponse> call, Response<AccountResponse> response) {
+            public void onResponse(Call<AccountBody> call, Response<AccountBody> response) {
                 if (response.isSuccessful()) {
-                    loginResponseData.setValue(response.body());
+                    loginResponseData.setValue(new AccountResponse(response.body()));
+                } else {
+                    loginResponseData.setValue(new AccountResponse(response.errorBody()));
                 }
             }
 
             @Override
-            public void onFailure(Call<AccountResponse> call, Throwable t) {
-                loginResponseData.setValue(null);
+            public void onFailure(Call<AccountBody> call, Throwable t) {
+
             }
         });
-        return loginResponseData;
     }
 
-    public MutableLiveData<AccountResponse> register(RegisterBody registerBody) {
-        final MutableLiveData<AccountResponse> registerResponseData = new MutableLiveData<>();
-        profileApi.register(registerBody).enqueue(new Callback<AccountResponse>() {
+    public void register(RegisterBody registerBody, final MutableLiveData<AccountResponse> registerResponseData) {
+        profileApi.register(registerBody).enqueue(new Callback<AccountBody>() {
             @Override
-            public void onResponse(Call<AccountResponse> call, Response<AccountResponse> response) {
+            public void onResponse(Call<AccountBody> call, Response<AccountBody> response) {
                 if (response.isSuccessful()) {
-                    registerResponseData.setValue(response.body());
+                    registerResponseData.setValue(new AccountResponse(response.body()));
+                } else {
+                    registerResponseData.setValue(new AccountResponse(response.errorBody()));
                 }
             }
 
             @Override
-            public void onFailure(Call<AccountResponse> call, Throwable t) {
-                registerResponseData.setValue(null);
-            }
+            public void onFailure(Call<AccountBody> call, Throwable t) {}
         });
-        return registerResponseData;
     }
+
+    public void setUserId(@NotNull SharedPreferences.Editor editor, @NotNull Context context, int userId) {
+        editor.putInt(context.getString(R.string.user_id_key), userId);
+    }
+
+    public void setToken(@NotNull SharedPreferences.Editor editor, @NotNull Context context, String token) {
+        editor.putString(context.getString(R.string.token_key), token);
+    }
+
+    public void setRole(@NotNull SharedPreferences.Editor editor, @NotNull Context context, String role) {
+        editor.putString(context.getString(R.string.role_key), role);
+    }
+
+    public void clearUserData(@NotNull SharedPreferences.Editor editor) {
+        editor.clear();
+    }
+
+    public String getToken(@NotNull SharedPreferences preferences, @NotNull Context context) {
+        return preferences.getString(context.getString(R.string.token_key), null);
+    }
+
+
 }

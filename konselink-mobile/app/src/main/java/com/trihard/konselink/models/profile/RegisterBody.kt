@@ -14,15 +14,19 @@ data class RegisterBody(
 
     @SerializedName("phoneNum")
     @Expose
-    val _phoneNum: String,
+    val _phoneNum: String?,
 
     @SerializedName("password")
     @Expose
     val _password: String,
 
+    @SerializedName("role")
+    @Expose
+    val _role: String,
+
     @SerializedName("community")
     @Expose
-    val _community: String
+    val _community: String?
 )
 //{
 //    val username

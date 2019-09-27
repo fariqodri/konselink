@@ -25,9 +25,9 @@ public class PanduanRepository {
         panduanApi = RetrofitService.Companion.createService(PanduanApi.class);
     }
 
-    public MutableLiveData<PanduanListResponse> findAll() {
+    public MutableLiveData<PanduanListResponse> findAll(String token) {
         final MutableLiveData<PanduanListResponse> panduanData = new MutableLiveData<>();
-        panduanApi.getPanduanList().enqueue(new Callback<PanduanListResponse>() {
+        panduanApi.getPanduanList(token).enqueue(new Callback<PanduanListResponse>() {
             @Override
             public void onResponse(Call<PanduanListResponse> call, Response<PanduanListResponse> response) {
                 if (response.isSuccessful()) {
@@ -43,9 +43,9 @@ public class PanduanRepository {
         return panduanData;
     }
 
-    public MutableLiveData<PanduanResponse> findOne(int id) {
+    public MutableLiveData<PanduanResponse> findOne(String token, int id) {
         final MutableLiveData<PanduanResponse> panduan = new MutableLiveData<>();
-        panduanApi.getPanduan(id).enqueue(new Callback<PanduanResponse>() {
+        panduanApi.getPanduan(token, id).enqueue(new Callback<PanduanResponse>() {
             @Override
             public void onResponse(Call<PanduanResponse> call, Response<PanduanResponse> response) {
                 if (response.isSuccessful()) {
