@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+            android:id="@+id/panduan_menu"
+            android:icon="@drawable/panduan_icon"
+            android:title="@string/pedoman"
+    />
+    <item
+            android:icon="@drawable/message_icon_black"
+            android:title="@string/pesan_nav"
+    />
+    <item
+            android:icon="@drawable/psikolog_icon_black"
+            android:title="@string/psikolog_nav"
+    />
+    <item
+            android:id="@+id/profile_menu"
+            android:icon="@drawable/profile_icon_black"
+            android:title="@string/profil_nav"
+    />
+</menu>
