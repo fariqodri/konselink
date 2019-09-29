@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        tools:context=".fragments.ProfileFragment">
+
+    <ImageView
+            android:id="@+id/display_picture"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:background="@drawable/account_circle"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+    <ProgressBar
+            android:id="@+id/user_data_loading"
+            app:layout_constraintTop_toBottomOf="@id/display_picture"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+        />
+
+    <LinearLayout
+            android:id="@+id/data_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/display_picture"
+            android:orientation="vertical"
+            >
+        <TextView
+                android:id="@+id/username_data"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/TextAppearance.AppCompat.Title"
+                android:textAlignment="center"
+                />
+        <TextView
+                android:id="@+id/email_data"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/TextAppearance.AppCompat.Title"
+                android:textAlignment="center"
+                />
+    </LinearLayout>
+
+    <View
+            android:id="@+id/data_divider"
+            android:layout_marginTop="20dp"
+            style="@style/Divider"
+            app:layout_constraintTop_toBottomOf="@id/data_layout"
+            app:layout_constraintLeft_toLeftOf="parent"
+            />
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/data_divider"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical"
+            android:showDividers="middle"
+            android:divider="?android:listDivider"
+            android:dividerPadding="16dp"
+            >
+        <com.google.android.material.button.MaterialButton
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                app:icon="@drawable/more_vertical"
+                app:iconSize="40dp"
+                app:iconTint="@color/black"
+                android:text="@string/settings"
+                android:textAlignment="textStart"
+                app:iconPadding="25dp"
+                android:textColor="@color/black"
+                android:textAllCaps="false"
+                android:textSize="20sp"
+                />
+
+        <com.google.android.material.button.MaterialButton
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                app:icon="@drawable/search"
+                app:iconSize="40dp"
+                app:iconTint="@color/black"
+                android:text="@string/faq"
+                android:textAlignment="textStart"
+                app:iconPadding="22dp"
+                android:layout_marginStart="3dp"
+                android:textColor="@color/black"
+                android:textAllCaps="false"
+                android:textSize="20sp"
+                />
+
+        <com.google.android.material.button.MaterialButton
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                app:icon="@drawable/favorite"
+                app:iconSize="40dp"
+                app:iconTint="@color/black"
+                android:text="@string/about"
+                android:textAlignment="textStart"
+                app:iconPadding="25dp"
+                android:textColor="@color/black"
+                android:textAllCaps="false"
+                android:textSize="20sp"
+                />
+
+        <com.google.android.material.button.MaterialButton
+                android:id="@+id/logout_button"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                app:icon="@drawable/logout"
+                app:iconSize="40dp"
+                app:iconTint="@color/black"
+                android:text="@string/logout"
+                android:textAlignment="textStart"
+                app:iconPadding="25dp"
+                android:textColor="@color/black"
+                android:textAllCaps="false"
+                android:textSize="20sp"
+                />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
